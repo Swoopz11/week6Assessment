@@ -18,10 +18,12 @@ rollbar.log("Hello world!");
 app.use(express.json())
 
 app.get('/', (req, res) => {
+    rollbar.info('user visiting site')
     res.sendFile(path.join(__dirname, 'public/index.html'))
 })
 
 app.get('/styles', (req, res) => {
+    rollbar.info('styles available to visitor')
     res.sendFile(path.join(__dirname, 'public/index.css'))
 })
 
@@ -35,7 +37,7 @@ app.get('/api/robots', (req, res) => {
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
         res.sendStatus(400)
-        rollbar.info('error, could not get bots')
+        rollbar.error('/api/robots not able to send botsArr to front end. Route failed.')
     }
 })
 
@@ -48,6 +50,7 @@ app.get('/api/robots/five', (req, res) => {
     } catch (error) {
         console.log('ERROR GETTING FIVE BOTS', error)
         res.sendStatus(400)
+        rollbar.critical('/api/robots/five not working: unable to duel')
     }
 })
 
